@@ -1,23 +1,25 @@
 window.onload=function(){
-    const hellForm = new hellMenuClass(document.getElementsByTagName('body')[0]);
+    const hellForm = new hellFormClass();
     hellForm.addTitle(
         'test form',
         'title_extra_class'
     );
-    hellMenu.addText(
+    hellForm.addText(
         'Login',
         'login',
         (value)=>{console.log(value);}
     );
-    hellMenu.addPassword(
+    hellForm.addPass(
         'Password',
         'password',
         (pass)=>{return true;}
     );
-    hellMenu.addSubmit(
+    hellForm.addSubmit(
         'Login',
         'login',
         (forms)=>{return true;}
     );
-    hellForm.render();
+    document.getElementsByTagName('body')[0].appendChild(
+        hellForm.render()
+    );
 }
