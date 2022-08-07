@@ -13,6 +13,9 @@ const hellFormClass = function(){
     this.addText = function(label, name, func){
         return _addText(label, name, func);
     };
+    this.addSelect = function(label, name, list, func){
+        return _addSelect(label, name, list, func);
+    };
     this.addTitle = function(title, clas){
         return _addTitle(title, clas);
     };
@@ -34,6 +37,14 @@ const hellFormClass = function(){
     const _class = (name)=>{
         return ('hellform_'+name);
     };
+    const _addPass = function(label, name, func){
+         _forms.push({
+             type:1,
+             label:label,
+             name:name,
+             func:func
+         });
+    };
     const _addText = function(label, name, func){
          _forms.push({
              type:0,
@@ -42,13 +53,17 @@ const hellFormClass = function(){
              func:func
          });
     };
-    const _addPass = function(label, name, func){
-         _forms.push({
-             type:1,
+    const _addSelect = function(label, name, list, func){
+        let form = {
+             type:2,
              label:label,
              name:name,
+             list:{},
              func:func
-         });
+         };
+         for(let i in list)
+            form.list[i.toString()] = list[i].toString(); 
+         _forms.push(form);
     };
     const _addTitle = function(title, clas){
         _title = {
@@ -124,6 +139,24 @@ const hellFormClass = function(){
             input
         );
     };
+    const _selectRender = function(label, name, list, func){
+        const select = document.createElement('select');
+        select.className = _class('text');
+        select.setAttribute('type', 'text');
+        select.setAttribute('id', _id(name));
+        select.setAttribute('name', name);
+        select.addEventListener("keyup", func); 
+        for(let i in list){
+            let option = document.createElement('option');
+            option.setAttribute('value', i.toString());
+            option.textContent = list[i].toString();
+            select.appendChild(option);
+        }
+        return _lineFormRender(
+            label,
+            select
+        );
+    };
     const _render = function(){
         _element = document.createElement('div');
         _element.appendChild(_titleRender());
@@ -136,6 +169,10 @@ const hellFormClass = function(){
             else if (i.type === 1)
                 _element.appendChild(
                      _passRender(i.label, i.name, i.func)
+                );
+            else if (i.type === 2)
+                _element.appendChild(
+                     _selectRender(i.label, i.name, i.list, i.func)
                 );
         _element.appendChild(_submitRender());
         return _element;

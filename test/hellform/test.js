@@ -14,6 +14,17 @@ window.onload=function(){
         'password',
         (pass)=>{return true;}
     );
+    hellForm.addSelect(
+        'Server',
+        'server',
+        {
+            'int1':'international 1',
+            'int2':'international 2',
+            'na1':'North America East',
+            'na2':'North America West'
+        },
+        (value)=>{console.log(value);}
+    );
     hellForm.addSubmit(
         'Login',
         'login',
