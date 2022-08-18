@@ -38,4 +38,4 @@ window.onload=function(){
     document.getElementsByTagName('body')[0].appendChild(
         hellForm.render()
     );
-}
+};
