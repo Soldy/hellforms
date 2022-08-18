@@ -8,19 +8,22 @@ const hellFormClass = function(){
         return _id(name)
     };
     this.addPass = function(label, name, func){
-        return _addPass(label, name, func);
+        return _add(1,  label, name, func);
     };
     this.addText = function(label, name, func){
-        return _addText(label, name, func);
+        return _add(0, label, name, func);
+    };
+    this.addArea = function(label, name, func){
+        return _add(3, label, name, func);
     };
     this.addSelect = function(label, name, list, func){
-        return _addSelect(label, name, list, func);
+        return _add(2, label, name, func, list);
     };
     this.addTitle = function(title, clas){
         return _addTitle(title, clas);
     };
-    this.addSubmit = function(name, clas, func){
-        return _addSubmit(name, clas, func);
+    this.addSubmit = function(name, id, func){
+        return _addSubmit(name, id, func);
     };
     this.render = function(){
         return _render();
@@ -37,49 +40,38 @@ const hellFormClass = function(){
     const _class = (name)=>{
         return ('hellform_'+name);
     };
-    const _addPass = function(label, name, func){
-         _forms.push({
-             type:1,
-             label:label,
-             name:name,
-             func:func
-         });
+    const _create = function(tag){
+        return document.createElement(tag);
     };
-    const _addText = function(label, name, func){
-         _forms.push({
-             type:0,
-             label:label,
-             name:name,
-             func:func
-         });
-    };
-    const _addSelect = function(label, name, list, func){
+    const _add = function(type, label, name, func, list){
         let form = {
-             type:2,
-             label:label,
-             name:name,
-             list:{},
-             func:func
+             type,
+             label,
+             name,
+             func
          };
-         for(let i in list)
-            form.list[i.toString()] = list[i].toString(); 
+         if(type === 2){
+            form.list = {}; 
+            for(let i in list)
+               form.list[i.toString()] = list[i].toString(); 
+         }
          _forms.push(form);
-    };
+    }
     const _addTitle = function(title, clas){
         _title = {
             'name':title.toString(),
             'clas':clas.toString()
         }
     };
-    const _addSubmit = function(title, clas, func){
+    const _addSubmit = function(title, id, func){
         _submit = {
             'name':title.toString(),
-            'clas':clas.toString(),
+            'id':id.toString(),
             'func':func
         }
     };
     const _lineRender = function(...inner){
-        const line =  document.createElement('div');
+        const line =  _create('div');
         line.className = _class('line');
         for(let i of inner)
             line.appendChild(i);
@@ -91,63 +83,68 @@ const hellFormClass = function(){
             inner
         );
     };
+    const _input = function(type, name, func){
+        const input = _create('input');
+        _inputAttribute(input, type, name, func);
+        return input;
+    };
+    const _inputAttribute = function(input, type, name, func){
+        input.className = _class(type);
+        input.setAttribute('type', type);
+        input.setAttribute('id', _id(name));
+        input.setAttribute('name', name);
+        if(type === 'submit') {
+            input.addEventListener("onclick", func); 
+        }else
+            input.addEventListener("keyup", func); 
+    };
     const _labelRender = function(label){
-        const elem =  document.createElement('div');
+        const elem = _create('div');
         elem.className = _class('label');
         elem.textContent = label;
         return elem;
-    }
+    };
     const _titleRender = function(){
-        const title =  document.createElement('div');
+        const title =  _create('div');
         title.className = (_class('title')+ _title.clas);
         title.textContent = _title.name;
         return _lineRender(title);
     };
     const _submitRender = function(){
-        const holder =  document.createElement('div');
-        const input = document.createElement('input');
-        holder.className = _class('submit_holder');
-        input.className = _class('submit');
-        input.setAttribute('type', 'submit');
-        input.setAttribute('id', _id(_submit.clas));
-        input.addEventListener("onclick", _submit.func); 
+        const holder =  _create('div');
+        const input = _input('submit', _submit.id, _submit.func)
         input.value = _submit.name; 
+        holder.className = _class('submit_holder');
         holder.appendChild(input);
         return _lineRender(holder);
     };
     const _passRender = function(label, name, func){
-        const input = document.createElement('input');
-        input.className = _class('password');
-        input.setAttribute('type', 'password');
-        input.setAttribute('id', _id(name));
-        input.setAttribute('name', name);
-        input.addEventListener("keyup", func); 
+        const input = _input('password', name, func)
         return _lineFormRender(
             label,
             input
         );
     };
     const _textRender = function(label, name, func){
-        const input = document.createElement('input');
-        input.className = _class('text');
-        input.setAttribute('type', 'text');
-        input.setAttribute('id', _id(name));
-        input.setAttribute('name', name);
-        input.addEventListener("keyup", func); 
+        const input = _input('text', name, func)
         return _lineFormRender(
             label,
             input
         );
     };
+    const _areaRender = function(label, name, func){
+        const area = _create('textarea');
+        _inputAttribute(area, 'textarea', name, func);
+        return _lineFormRender(
+            label,
+            area
+        );
+    };
     const _selectRender = function(label, name, list, func){
-        const select = document.createElement('select');
-        select.className = _class('text');
-        select.setAttribute('type', 'text');
-        select.setAttribute('id', _id(name));
-        select.setAttribute('name', name);
-        select.addEventListener("keyup", func); 
+        const select = _create('select');
+        _inputAttribute(select, 'select', name, func);
         for(let i in list){
-            let option = document.createElement('option');
+            let option = _create('option');
             option.setAttribute('value', i.toString());
             option.textContent = list[i].toString();
             select.appendChild(option);
@@ -158,23 +155,31 @@ const hellFormClass = function(){
         );
     };
     const _render = function(){
-        _element = document.createElement('div');
+        if(_rendered === true)
+            return _element;
+        _element = _create('div');
         _element.appendChild(_titleRender());
         _element.className = _class('holder');
         for(let i of _forms)
-            if(i.type === 0)
+            if(i.type === 0){
                 _element.appendChild(
                      _textRender(i.label, i.name, i.func)
                 );
-            else if (i.type === 1)
+            }else if (i.type === 1){
                 _element.appendChild(
                      _passRender(i.label, i.name, i.func)
                 );
-            else if (i.type === 2)
+            }else if (i.type === 2){
                 _element.appendChild(
                      _selectRender(i.label, i.name, i.list, i.func)
                 );
+            }else if (i.type === 3){
+                _element.appendChild(
+                     _areaRender(i.label, i.name, i.func)
+                );
+            }
         _element.appendChild(_submitRender());
+         _rendered = false;
         return _element;
     };
 };

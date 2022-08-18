@@ -25,6 +25,11 @@ window.onload=function(){
         },
         (value)=>{console.log(value);}
     );
+    hellForm.addArea(
+        'Feed back',
+        'feedback',
+        (text)=>{return true;}
+    );
     hellForm.addSubmit(
         'Login',
         'login',
