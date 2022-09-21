@@ -25,6 +25,9 @@ const hellFormClass = function(){
     this.addSubmit = function(name, id, func){
         return _addSubmit(name, id, func);
     };
+    this.updateSelect = function(name, list){
+        _selectUpdate(name,list);
+    };
     this.render = function(){
         return _render();
     };
@@ -93,7 +96,7 @@ const hellFormClass = function(){
         input.setAttribute('id', _id(name));
         input.setAttribute('name', name);
         if(type === 'submit') {
-            input.addEventListener('onclick', func); 
+            input.addEventListener('click', func); 
         }else
             input.addEventListener('keyup', func); 
     };
@@ -139,19 +142,32 @@ const hellFormClass = function(){
             area
         );
     };
-    const _selectRender = function(label, name, list, func){
-        const select = _create('select');
-        _inputAttribute(select, 'select', name, func);
+    const _optionRender = function(select, list){
         for(let i in list){
             let option = _create('option');
             option.setAttribute('value', i.toString());
             option.textContent = list[i].toString();
             select.appendChild(option);
         }
+    };
+    const _selectRender = function(label, name, list, func){
+        const select = _create('select');
+        _inputAttribute(select, 'select', name, func);
+        _optionRender(select, list);
         return _lineFormRender(
             label,
             select
         );
+    };
+    const _selectUpdate = function(name,list){
+          const element = _element.getElementById(_id(name));
+          if(typeof element === 'undefined')
+              throw Error(name+' not exist');
+          const val = element.value.toString(); 
+          while (element.firstChild)
+              element.removeChild(element.firstChild);
+          _optionRender(element,list);
+          element.value = val.toString(); 
     };
     const _render = function(){
         if(_rendered === true)
