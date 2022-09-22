@@ -42,6 +42,16 @@ const hellFormClass = function(){
     const _class = (name)=>{
         return ('hellform_'+name);
     };
+    const _attreses = (...c)=>{
+        let out = '';
+        let s = 0;
+        for(let i of c){
+            if(s>0) out+=' ';
+            out+=i;
+            s++;
+        }
+        return out;
+    };
     const _create = function(tag){
         return document.createElement(tag);
     };
@@ -108,7 +118,10 @@ const hellFormClass = function(){
     };
     const _titleRender = function(){
         const title =  _create('div');
-        title.className = (_class('title')+ _title.clas);
+        title.className = _attreses(
+            _class('title'), 
+            _title.clas
+        );
         title.textContent = _title.name;
         return _lineRender(title);
     };
