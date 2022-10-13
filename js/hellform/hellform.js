@@ -98,6 +98,8 @@ const hellFormClass = function(){
     const _input = function(type, name, func){
         const input = _create('input');
         _inputAttribute(input, type, name, func);
+        if(typeof label !== 'undefined')
+            input.setAttribute('placeholder', label);
         return input;
     };
     const _inputAttribute = function(input, type, name, func){
@@ -134,14 +136,14 @@ const hellFormClass = function(){
         return _lineRender(holder);
     };
     const _passRender = function(label, name, func){
-        const input = _input('password', name, func);
+        const input = _input('password', name, func, label);
         return _lineFormRender(
             label,
             input
         );
     };
     const _textRender = function(label, name, func){
-        const input = _input('text', name, func);
+        const input = _input('text', name, func, label);
         return _lineFormRender(
             label,
             input
