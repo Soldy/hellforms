@@ -1,47 +1,143 @@
 'use strict';
 
 const hellFormClass = function(){
+    /**
+     * 
+     * @param {string} name 
+     * @returns {string}
+     */
     this.class = function(name){
         return _class(name);
     };
+    /**
+     *
+     * @param {string} name 
+     * @returns {void}
+     */
     this.id = function(name){
         return _id(name);
     };
+    /**
+     * 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {function} func 
+     * @returns {void}
+     */
     this.addPass = function(label, name, func){
         return _add(1,  label, name, func);
     };
+    /**
+     * 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {function} func 
+     * @returns {void}
+     */
     this.addText = function(label, name, func){
         return _add(0, label, name, func);
     };
+    /**
+     * 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {function} func 
+     * @returns {void}
+     */
     this.addArea = function(label, name, func){
         return _add(3, label, name, func);
     };
+    /**
+     * 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {object} list 
+     * @param {function} func 
+     * @returns {VOID}
+     */
     this.addSelect = function(label, name, list, func){
         return _add(2, label, name, func, list);
     };
+    /**
+     * 
+     * @param {string} title 
+     * @param {string} clas 
+     * @returns {void}
+     */
     this.addTitle = function(title, clas){
         return _addTitle(title, clas);
     };
+    /**
+     * 
+     * @param {string} name 
+     * @param {string} id 
+     * @param {function} func 
+     * @returns {void}
+     */
     this.addSubmit = function(name, id, func){
         return _addSubmit(name, id, func);
     };
+    /**
+     * 
+     * @param {string} name 
+     * @param {array} list 
+     */
     this.updateSelect = function(name, list){
         _selectUpdate(name,list);
     };
+    /**
+     * 
+     * @returns {object}
+     */
     this.render = function(){
         return _render();
     };
+    /**
+     * 
+     * @let {object}
+     */
     let _title = {};
+    /**
+     * 
+     * @let {array}
+     */
     let _forms = [];
+    /**
+     * 
+     * @let {object}
+     */
     let _submit = {};
+    /**
+     * 
+     * @let {object}
+     */
     let _element;
+    /**
+     * 
+     * @let {boolean}
+     */
     let _rendered = false;
+    /**
+     * 
+     * @param {string} name 
+     * @returns {string}
+     */
     const _id = (name)=>{
         return ('hellform_id_'+name);
     };
+    /**
+     * 
+     * @param {string} name 
+     * @returns {string}
+     */
     const _class = (name)=>{
         return ('hellform_'+name);
     };
+    /**
+     * 
+     * @param  {...string} c 
+     * @returns {string}
+     */
     const _attreses = (...c)=>{
         let out = '';
         let s = 0;
@@ -52,9 +148,22 @@ const hellFormClass = function(){
         }
         return out;
     };
+    /**
+     * 
+     * @param {string} tag 
+     * @returns {object}
+     */
     const _create = function(tag){
         return document.createElement(tag);
     };
+    /**
+     * 
+     * @param {string} type 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {function} func 
+     * @param {array} list 
+     */
     const _add = function(type, label, name, func, list){
         let form = {
             type,
@@ -69,6 +178,11 @@ const hellFormClass = function(){
         }
         _forms.push(form);
     };
+    /**
+     * 
+     * @param {string} title 
+     * @param {string} clas 
+     */
     const _addTitle = function(title, clas){
         _title = {
             'name':title.toString(),
@@ -82,6 +196,11 @@ const hellFormClass = function(){
             'func':func
         };
     };
+    /**
+     * 
+     * @param  {...any} inner 
+     * @returns {object}
+     */
     const _lineRender = function(...inner){
         const line =  _create('div');
         line.className = _class('line');
@@ -89,12 +208,25 @@ const hellFormClass = function(){
             line.appendChild(i);
         return line;
     };
+    /**
+     * 
+     * @param {string} label 
+     * @param {object} inner 
+     * @returns {object}
+     */
     const _lineFormRender = function(label, inner){
         return _lineRender(
             _labelRender(label),
             inner
         );
     };
+    /**
+     * 
+     * @param {string} type 
+     * @param {string} name 
+     * @param {function} func 
+     * @returns {object}
+     */
     const _input = function(type, name, func){
         const input = _create('input');
         _inputAttribute(input, type, name, func);
@@ -102,6 +234,13 @@ const hellFormClass = function(){
             input.setAttribute('placeholder', label);
         return input;
     };
+    /**
+     * 
+     * @param {string} input 
+     * @param {string} type 
+     * @param {string} name 
+     * @param {function} func 
+     */
     const _inputAttribute = function(input, type, name, func){
         input.className = _class(type);
         input.setAttribute('type', type);
@@ -112,12 +251,21 @@ const hellFormClass = function(){
         }else
             input.addEventListener('keyup', func); 
     };
+    /**
+     * 
+     * @param {string} label 
+     * @returns {object}
+     */
     const _labelRender = function(label){
         const elem = _create('div');
         elem.className = _class('label');
         elem.textContent = label;
         return elem;
     };
+    /**
+     * 
+     * @returns {object}
+     */
     const _titleRender = function(){
         const title =  _create('div');
         title.className = _attreses(
@@ -127,6 +275,10 @@ const hellFormClass = function(){
         title.textContent = _title.name;
         return _lineRender(title);
     };
+    /**
+     * 
+     * @returns {object}
+     */
     const _submitRender = function(){
         const holder =  _create('div');
         const input = _input('submit', _submit.id, _submit.func);
@@ -135,6 +287,13 @@ const hellFormClass = function(){
         holder.appendChild(input);
         return _lineRender(holder);
     };
+    /**
+     * 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {function} func 
+     * @returns {object}
+     */
     const _passRender = function(label, name, func){
         const input = _input('password', name, func, label);
         return _lineFormRender(
@@ -142,6 +301,13 @@ const hellFormClass = function(){
             input
         );
     };
+    /**
+     * 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {function} func 
+     * @returns {object}
+     */
     const _textRender = function(label, name, func){
         const input = _input('text', name, func, label);
         return _lineFormRender(
@@ -149,6 +315,13 @@ const hellFormClass = function(){
             input
         );
     };
+    /**
+     * 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {function} func 
+     * @returns {object}
+     */
     const _areaRender = function(label, name, func){
         const area = _create('textarea');
         _inputAttribute(area, 'textarea', name, func);
@@ -157,6 +330,11 @@ const hellFormClass = function(){
             area
         );
     };
+    /**
+     * 
+     * @param {string} select 
+     * @param {array} list 
+     */
     const _optionRender = function(select, list){
         for(let i in list){
             let option = _create('option');
@@ -165,6 +343,14 @@ const hellFormClass = function(){
             select.appendChild(option);
         }
     };
+    /**
+     * 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {array} list 
+     * @param {function} func 
+     * @returns {object}
+     */
     const _selectRender = function(label, name, list, func){
         const select = _create('select');
         _inputAttribute(select, 'select', name, func);
@@ -174,6 +360,11 @@ const hellFormClass = function(){
             select
         );
     };
+    /**
+     * 
+     * @param {string} name 
+     * @param {array} list 
+     */
     const _selectUpdate = function(name,list){
           const element = _element.getElementById(_id(name));
           if(typeof element === 'undefined')
@@ -184,6 +375,10 @@ const hellFormClass = function(){
           _optionRender(element,list);
           element.value = val.toString(); 
     };
+    /**
+     * 
+     * @returns {@object}
+     */
     const _render = function(){
         if(_rendered === true)
             return _element;
