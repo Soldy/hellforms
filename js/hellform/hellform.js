@@ -401,6 +401,17 @@ const hellFormClass = function(){
           element.value = val.toString(); 
     };
     /**
+     *
+     * @const {array}
+     */
+    const _renderTypes = [
+        _textRender,
+        _passRender,
+        _selectRender,
+        _areaRender,
+        _checkboxRender
+    ];
+    /**
      * 
      * @returns {@object}
      */
@@ -411,25 +422,13 @@ const hellFormClass = function(){
         _element.appendChild(_titleRender());
         _element.className = _class('holder');
         for(let i of _forms)
-            if(i.type === 0){
+            if(i.type === 2){
                 _element.appendChild(
-                    _textRender(i.label, i.name, i.func)
+                    _renderTypes[i.type](i.label, i.name, i.list, i.func)
                 );
-            }else if (i.type === 1){
+            }else if ( _renderTypes.length >= i.type){
                 _element.appendChild(
-                    _passRender(i.label, i.name, i.func)
-                );
-            }else if (i.type === 2){
-                _element.appendChild(
-                    _selectRender(i.label, i.name, i.list, i.func)
-                );
-            }else if (i.type === 3){
-                _element.appendChild(
-                    _areaRender(i.label, i.name, i.func)
-                );
-            }else if (i.type === 4){
-                _element.appendChild(
-                    _checkboxRender(i.label, i.name, i.func)
+                    _renderTypes[i.type](i.label, i.name, i.func)
                 );
             }
         _element.appendChild(_submitRender());
