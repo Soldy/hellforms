@@ -30,10 +30,15 @@ window.onload=function(){
         'feedback',
         (text)=>{return true;}
     );
+    hellForm.addCheckbox(
+        'Are you happy?',
+        'happy',
+        (happy)=>{console.log('happines: '+happy)}
+    );
     hellForm.addSubmit(
         'Login',
         'login',
-        (forms)=>{return true;}
+        (forms)=>{console.log('click');return true;}
     );
     document.getElementsByTagName('body')[0].appendChild(
         hellForm.render()
