@@ -60,6 +60,16 @@ const hellFormClass = function(){
     };
     /**
      * 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {function} func 
+     * @returns {VOID}
+     */
+    this.addCheckbox = function(label, name, func){
+        return _add(4, label, name, func);
+    };
+    /**
+     * 
      * @param {string} title 
      * @param {string} clas 
      * @returns {void}
@@ -118,7 +128,7 @@ const hellFormClass = function(){
      */
     let _rendered = false;
     /**
-     * 
+     *
      * @param {string} name 
      * @returns {string}
      */
@@ -225,9 +235,10 @@ const hellFormClass = function(){
      * @param {string} type 
      * @param {string} name 
      * @param {function} func 
+     * @param {string} label
      * @returns {object}
      */
-    const _input = function(type, name, func){
+    const _input = function(type, name, func, label){
         const input = _create('input');
         _inputAttribute(input, type, name, func);
         if(typeof label !== 'undefined')
@@ -296,6 +307,20 @@ const hellFormClass = function(){
      */
     const _passRender = function(label, name, func){
         const input = _input('password', name, func, label);
+        return _lineFormRender(
+            label,
+            input
+        );
+    };
+    /**
+     * 
+     * @param {string} label 
+     * @param {string} name 
+     * @param {function} func 
+     * @returns {object}
+     */
+    const _checkboxRender = function(label, name, func){
+        const input = _input('checkbox', name, func);
         return _lineFormRender(
             label,
             input
@@ -401,6 +426,10 @@ const hellFormClass = function(){
             }else if (i.type === 3){
                 _element.appendChild(
                     _areaRender(i.label, i.name, i.func)
+                );
+            }else if (i.type === 4){
+                _element.appendChild(
+                    _checkboxRender(i.label, i.name, i.func)
                 );
             }
         _element.appendChild(_submitRender());
