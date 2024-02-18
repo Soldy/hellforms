@@ -1,8 +1,23 @@
+/**
+ * Fast like hell. form generator.
+ *
+ * @version 0.1.0
+ */
+
 'use strict';
 
-const hellFormClass = function(){
+
+/**
+ * This is a single-class tool. Implementation is easy : 
+ * const form = new HellForm();
+ *
+ * @class
+ */ 
+const HellForm = function(){
     /**
-     * 
+     * Class name resolver. 
+     * Return with the inside used class name.
+     *
      * @param {string} name 
      * @returns {string}
      */
@@ -10,6 +25,9 @@ const hellFormClass = function(){
         return _class(name);
     };
     /**
+     * Id string resolver. 
+     * Return with the id string 
+     * that is used inside.
      *
      * @param {string} name 
      * @returns {void}
@@ -18,6 +36,7 @@ const hellFormClass = function(){
         return _id(name);
     };
     /**
+     * 
      * 
      * @param {string} label 
      * @param {string} name 
@@ -69,7 +88,9 @@ const hellFormClass = function(){
         return _add(4, label, name, func);
     };
     /**
-     * 
+     * This is set or add the main form title. 
+     * Useful if we use multiple forms on the same page.
+     *
      * @param {string} title 
      * @param {string} clas 
      * @returns {void}
@@ -78,6 +99,9 @@ const hellFormClass = function(){
         return _addTitle(title, clas);
     };
     /**
+     * Every form has only one submit button possibility.
+     * However, the auto-submit is easy to do.  
+     * So I see no reason to change that. 
      * 
      * @param {string} name 
      * @param {string} id 
@@ -96,11 +120,36 @@ const hellFormClass = function(){
         _selectUpdate(name,list);
     };
     /**
-     * 
-     * @returns {object}
+     * The render function triggers the 
+     * form render process, and come back with 
+     * the DOM element. 
+     * The original version had the retard object 
+     * support. 
+     * However, that was removed. Currently, this is 
+     * always returned with the DOMElement.
+     *
+     * @returns {DOMElement}
      */
     this.render = function(){
         return _render();
+    };
+    /**
+     * Come back with the input field element.
+     *
+     * @param {string} element basic id
+     * @returns {DOMelement|null}
+     */
+    this.get = function(id){
+        return _get(id);
+    };
+    /**
+     * Come back with the input field value.
+     *
+     * @param {string} element basic id
+     * @return {string}
+     */
+    this.value = function(id){
+        return _value(id);
     };
     /**
      * 
@@ -127,6 +176,22 @@ const hellFormClass = function(){
      * @let {boolean}
      */
     let _rendered = false;
+    /**
+     *
+     * @param {string} element basic id
+     * @returns {DOMelement|null}
+     */
+    const _get = function(id){
+        return document.getElementById(_id(id));
+    };
+    /**
+     *
+     * @param {string} element basic id
+     * @return {string}
+     */
+    const _value = function(id){
+        return _get(id).value;
+    };
     /**
      *
      * @param {string} name 
@@ -194,6 +259,8 @@ const hellFormClass = function(){
      * @param {string} clas 
      */
     const _addTitle = function(title, clas){
+        if (typeof clas === 'undefined')
+            clas = '';
         _title = {
             'name':title.toString(),
             'clas':clas.toString()

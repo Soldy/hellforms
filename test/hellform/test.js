@@ -1,5 +1,5 @@
 window.onload=function(){
-    const hellForm = new hellFormClass();
+    const hellForm = new HellForm();
     hellForm.addTitle(
         'test form',
         'title_extra_class'
