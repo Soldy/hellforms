@@ -266,6 +266,12 @@ const HellForm = function(){
             'clas':clas.toString()
         };
     };
+    /**
+     *
+     * @param {string} title 
+     * @param {string} id 
+     * @param {function} func 
+     */
     const _addSubmit = function(title, id, func){
         _submit = {
             'name':title.toString(),
