@@ -2,6 +2,7 @@
  * Fast like hell. form generator.
  *
  * @version 0.1.0
+ *
  */
 
 'use strict';
@@ -82,7 +83,7 @@ const HellForm = function(){
      * @param {string} label 
      * @param {string} name 
      * @param {function} func 
-     * @returns {VOID}
+     * @returns {void}
      */
     this.addCheckbox = function(label, name, func){
         return _add(4, label, name, func);
@@ -97,6 +98,16 @@ const HellForm = function(){
      */
     this.addTitle = function(title, clas){
         return _addTitle(title, clas);
+    };
+    /**
+     * Main notice set
+     *
+     * @param {string} notice message
+     * @param {string} clas 
+     * @returns {void}
+     */
+    this.addNotice = function(notice, clas){
+        return _addNotice(notice, clas);
     };
     /**
      * Every form has only one submit button possibility.
@@ -152,10 +163,30 @@ const HellForm = function(){
         return _value(id);
     };
     /**
+     *
+     * @return {Object<string, string>}
+     */
+    this.json = function(){
+        const out = {};
+        for(let i of _ids)
+            out[i] = _value(i);
+        return out;
+    };
+    /**
      * 
      * @let {object}
      */
     let _title = {};
+    /**
+     * 
+     * @let {object}
+     */
+    let _notice = {};
+    /**
+     * 
+     * @let {object}
+     */
+    let _notice_element = {};
     /**
      * 
      * @let {array}
@@ -168,6 +199,11 @@ const HellForm = function(){
     let _submit = {};
     /**
      * 
+     * @let {array<string>}
+     */
+    let _ids = [];
+    /**
+     * 
      * @let {object}
      */
     let _element;
@@ -176,19 +212,10 @@ const HellForm = function(){
      * @let {boolean}
      */
     let _rendered = false;
-    /**
-     *
-     * @param {string} element basic id
-     * @returns {DOMelement|null}
-     */
+
     const _get = function(id){
         return document.getElementById(_id(id));
     };
-    /**
-     *
-     * @param {string} element basic id
-     * @return {string}
-     */
     const _value = function(id){
         return _get(id).value;
     };
@@ -251,6 +278,7 @@ const HellForm = function(){
             for(let i in list)
                 form.list[i.toString()] = list[i].toString(); 
         }
+        _ids.push(name);
         _forms.push(form);
     };
     /**
@@ -267,11 +295,18 @@ const HellForm = function(){
         };
     };
     /**
-     *
+     * 
      * @param {string} title 
-     * @param {string} id 
-     * @param {function} func 
+     * @param {string} clas 
      */
+    const _addNotice = function(title, clas){
+        if (typeof clas === 'undefined')
+            clas = '';
+        _notice = {
+            'name':notice.toString(),
+            'clas':clas.toString()
+        };
+    };
     const _addSubmit = function(title, id, func){
         _submit = {
             'name':title.toString(),
@@ -287,8 +322,10 @@ const HellForm = function(){
     const _lineRender = function(...inner){
         const line =  _create('div');
         line.className = _class('line');
-        for(let i of inner)
+        for(let i of inner){
+            console.log(line);
             line.appendChild(i);
+        }
         return line;
     };
     /**
@@ -338,7 +375,7 @@ const HellForm = function(){
     /**
      * 
      * @param {string} label 
-     * @returns {object}
+     * @returns {DOMElement}
      */
     const _labelRender = function(label){
         const elem = _create('div');
@@ -348,20 +385,38 @@ const HellForm = function(){
     };
     /**
      * 
-     * @returns {object}
+     * @returns {DOMElement}
      */
     const _titleRender = function(){
         const title =  _create('div');
         title.className = _attreses(
-            _class('title'), 
-            _title.clas
+          _class('title'), 
+          _title.clas
         );
         title.textContent = _title.name;
         return _lineRender(title);
     };
     /**
      * 
-     * @returns {object}
+     */
+    const _noticeInit = function(){
+        _notice_element = _create('div');
+    };
+    /**
+     * 
+     * @returns {DOMElement}
+     */
+    const _noticeRender = function(){
+        _notice_element.className = _attreses(
+          _class('notice'),
+          _notice.clas
+        );
+        _notice_element.textContent = _notice.name;
+        return _lineRender(_notice_element);
+    };
+    /**
+     * 
+     * @returns {DOMElement}
      */
     const _submitRender = function(){
         const holder =  _create('div');
@@ -376,7 +431,7 @@ const HellForm = function(){
      * @param {string} label 
      * @param {string} name 
      * @param {function} func 
-     * @returns {object}
+     * @returns {DOMElement}
      */
     const _passRender = function(label, name, func){
         const input = _input('password', name, func, label);
@@ -390,7 +445,7 @@ const HellForm = function(){
      * @param {string} label 
      * @param {string} name 
      * @param {function} func 
-     * @returns {object}
+     * @returns {DOMElement}
      */
     const _checkboxRender = function(label, name, func){
         const input = _input('checkbox', name, func);
@@ -404,7 +459,7 @@ const HellForm = function(){
      * @param {string} label 
      * @param {string} name 
      * @param {function} func 
-     * @returns {object}
+     * @returns {DOMElement}
      */
     const _textRender = function(label, name, func){
         const input = _input('text', name, func, label);
@@ -418,7 +473,7 @@ const HellForm = function(){
      * @param {string} label 
      * @param {string} name 
      * @param {function} func 
-     * @returns {object}
+     * @returns {DOMElement}
      */
     const _areaRender = function(label, name, func){
         const area = _create('textarea');
@@ -430,7 +485,7 @@ const HellForm = function(){
     };
     /**
      * 
-     * @param {string} select 
+     * @param {DOMElement} select 
      * @param {array} list 
      */
     const _optionRender = function(select, list){
@@ -447,7 +502,7 @@ const HellForm = function(){
      * @param {string} name 
      * @param {array} list 
      * @param {function} func 
-     * @returns {object}
+     * @returns {DOMElement}
      */
     const _selectRender = function(label, name, list, func){
         const select = _create('select');
@@ -475,7 +530,7 @@ const HellForm = function(){
     };
     /**
      *
-     * @const {array}
+     * @const {array<function>}
      */
     const _renderTypes = [
         _textRender,
@@ -486,13 +541,14 @@ const HellForm = function(){
     ];
     /**
      * 
-     * @returns {@object}
+     * @returns {DOMElement}
      */
     const _render = function(){
         if(_rendered === true)
             return _element;
         _element = _create('div');
         _element.appendChild(_titleRender());
+        _element.appendChild(_noticeRender());
         _element.className = _class('holder');
         for(let i of _forms)
             if(i.type === 2){
@@ -508,4 +564,5 @@ const HellForm = function(){
         _rendered = false;
         return _element;
     };
+    _noticeInit();
 };
