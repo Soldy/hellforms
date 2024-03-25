@@ -209,12 +209,27 @@ const HellForm = function(){
     let _element;
     /**
      * 
+     * @let {object}
+     */
+    let _lines = {};
+    /**
+     * 
+     * @let {object}
+     */
+    let _labels = {};
+    /**
+     * 
+     * @let {object}
+     */
+    let _fields = {};
+    /**
+     * 
      * @let {boolean}
      */
     let _rendered = false;
 
     const _get = function(id){
-        return document.getElementById(_id(id));
+        return _fields[id];
     };
     const _value = function(id){
         return _get(id).value;
@@ -323,7 +338,6 @@ const HellForm = function(){
         const line =  _create('div');
         line.className = _class('line');
         for(let i of inner){
-            console.log(line);
             line.appendChild(i);
         }
         return line;
@@ -334,9 +348,9 @@ const HellForm = function(){
      * @param {object} inner 
      * @returns {object}
      */
-    const _lineFormRender = function(label, inner){
+    const _lineFormRender = function(name, label, inner){
         return _lineRender(
-            _labelRender(label),
+            _labelRender(name, label),
             inner
         );
     };
@@ -353,6 +367,7 @@ const HellForm = function(){
         _inputAttribute(input, type, name, func);
         if(typeof label !== 'undefined')
             input.setAttribute('placeholder', label);
+        _fields[name] = input;
         return input;
     };
     /**
@@ -377,10 +392,11 @@ const HellForm = function(){
      * @param {string} label 
      * @returns {DOMElement}
      */
-    const _labelRender = function(label){
+    const _labelRender = function(name, label){
         const elem = _create('div');
         elem.className = _class('label');
         elem.textContent = label;
+        _labels[name] = elem;
         return elem;
     };
     /**
@@ -436,8 +452,9 @@ const HellForm = function(){
     const _passRender = function(label, name, func){
         const input = _input('password', name, func, label);
         return _lineFormRender(
-            label,
-            input
+          name,
+          label,
+          input
         );
     };
     /**
@@ -450,8 +467,9 @@ const HellForm = function(){
     const _checkboxRender = function(label, name, func){
         const input = _input('checkbox', name, func);
         return _lineFormRender(
-            label,
-            input
+          name,
+          label,
+          input
         );
     };
     /**
@@ -464,6 +482,7 @@ const HellForm = function(){
     const _textRender = function(label, name, func){
         const input = _input('text', name, func, label);
         return _lineFormRender(
+            name,
             label,
             input
         );
@@ -479,6 +498,7 @@ const HellForm = function(){
         const area = _create('textarea');
         _inputAttribute(area, 'textarea', name, func);
         return _lineFormRender(
+            name,
             label,
             area
         );
@@ -508,7 +528,9 @@ const HellForm = function(){
         const select = _create('select');
         _inputAttribute(select, 'select', name, func);
         _optionRender(select, list);
+        _fields[name] = select;
         return _lineFormRender(
+            name,
             label,
             select
         );
@@ -519,7 +541,7 @@ const HellForm = function(){
      * @param {array} list 
      */
     const _selectUpdate = function(name,list){
-          const element = _element.getElementById(_id(name));
+          const element = _fields[name];
           if(typeof element === 'undefined')
               throw Error(name+' not exist');
           const val = element.value.toString(); 
@@ -550,18 +572,27 @@ const HellForm = function(){
         _element.appendChild(_titleRender());
         _element.appendChild(_noticeRender());
         _element.className = _class('holder');
-        for(let i of _forms)
+        for(let i of _forms){
             if(i.type === 2){
-                _element.appendChild(
-                    _renderTypes[i.type](i.label, i.name, i.list, i.func)
+                _lines[i.name] = _renderTypes[i.type](
+                  i.label,
+                  i.name,
+                  i.list,
+                  i.func
                 );
             }else if ( _renderTypes.length >= i.type){
-                _element.appendChild(
-                    _renderTypes[i.type](i.label, i.name, i.func)
+                _lines[i.name] = _renderTypes[i.type](
+                  i.label,
+                  i.name,
+                  i.func
                 );
             }
+            _element.appendChild(
+              _lines[i.name]
+            );
+        }
         _element.appendChild(_submitRender());
-        _rendered = false;
+        _rendered = true;
         return _element;
     };
     _noticeInit();
