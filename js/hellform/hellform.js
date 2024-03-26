@@ -196,7 +196,7 @@ const HellForm = function(){
      * 
      * @let {object}
      */
-    let _submit = {};
+    let _submit;
     /**
      * 
      * @let {array<string>}
@@ -222,6 +222,12 @@ const HellForm = function(){
      * @let {object}
      */
     let _fields = {};
+    /**
+     * 
+     * @let {object}
+     */
+    let _submit_line;
+
     /**
      * 
      * @let {boolean}
@@ -323,11 +329,16 @@ const HellForm = function(){
         };
     };
     const _addSubmit = function(title, id, func){
-        _submit = {
-            'name':title.toString(),
-            'id':id.toString(),
-            'func':func
-        };
+        _submit.innerHTML = '';
+        const input = _input(
+          'submit', 
+          id.toString(), 
+          func,
+          title.toString()
+        );
+        input.value = title; 
+        _submit.className = _class('submit_holder');
+        _submit.appendChild(input);
     };
     /**
      * 
@@ -435,12 +446,7 @@ const HellForm = function(){
      * @returns {DOMElement}
      */
     const _submitRender = function(){
-        const holder =  _create('div');
-        const input = _input('submit', _submit.id, _submit.func);
-        input.value = _submit.name; 
-        holder.className = _class('submit_holder');
-        holder.appendChild(input);
-        return _lineRender(holder);
+        return _lineRender(_submit);
     };
     /**
      * 
@@ -596,4 +602,5 @@ const HellForm = function(){
         return _element;
     };
     _noticeInit();
+    _submit = _create('div');
 };
