@@ -9,14 +9,14 @@
 
 
 /**
- * This is a single-class tool. Implementation is easy : 
+ * This is a single-class tool. Implementation is easy :
  * const form = new HellForm();
  *
  * @class
- */ 
+ */
 const HellForm = function(){
     /**
-     * Class name resolver. 
+     * Class name resolver.
      * Return with the inside used class name.
      *
      * @param {string} name 
@@ -26,8 +26,8 @@ const HellForm = function(){
         return _class(name);
     };
     /**
-     * Id string resolver. 
-     * Return with the id string 
+     * Id string resolver.
+     * Return with the id string
      * that is used inside.
      *
      * @param {string} name 
@@ -39,9 +39,9 @@ const HellForm = function(){
     /**
      * 
      * 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {function} func 
+     * @param {string} label
+     * @param {string} name
+     * @param {function} func
      * @returns {void}
      */
     this.addPass = function(label, name, func){
@@ -49,9 +49,9 @@ const HellForm = function(){
     };
     /**
      * 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {function} func 
+     * @param {string} label
+     * @param {string} name
+     * @param {function} func
      * @returns {void}
      */
     this.addText = function(label, name, func){
@@ -59,9 +59,9 @@ const HellForm = function(){
     };
     /**
      * 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {function} func 
+     * @param {string} label
+     * @param {string} name
+     * @param {function} func
      * @returns {void}
      */
     this.addArea = function(label, name, func){
@@ -242,7 +242,7 @@ const HellForm = function(){
     };
     /**
      *
-     * @param {string} name 
+     * @param {string} name
      * @returns {string}
      */
     const _id = (name)=>{
@@ -250,7 +250,7 @@ const HellForm = function(){
     };
     /**
      * 
-     * @param {string} name 
+     * @param {string} name
      * @returns {string}
      */
     const _class = (name)=>{
@@ -258,7 +258,7 @@ const HellForm = function(){
     };
     /**
      * 
-     * @param  {...string} c 
+     * @param  {...string}
      * @returns {string}
      */
     const _attreses = (...c)=>{
@@ -272,20 +272,20 @@ const HellForm = function(){
         return out;
     };
     /**
-     * 
-     * @param {string} tag 
+     *
+     * @param {string} tag
      * @returns {object}
      */
     const _create = function(tag){
         return document.createElement(tag);
     };
     /**
-     * 
-     * @param {string} type 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {function} func 
-     * @param {array} list 
+     *
+     * @param {string} type
+     * @param {string} label
+     * @param {string} name
+     * @param {function} func
+     * @param {array} list
      */
     const _add = function(type, label, name, func, list){
         let form = {
@@ -295,17 +295,17 @@ const HellForm = function(){
             func
         };
         if(type === 2){
-            form.list = {}; 
+            form.list = {};
             for(let i in list)
-                form.list[i.toString()] = list[i].toString(); 
+                form.list[i.toString()] = list[i].toString();
         }
         _ids.push(name);
         _forms.push(form);
     };
     /**
      * 
-     * @param {string} title 
-     * @param {string} clas 
+     * @param {string} title
+     * @param {string} clas
      */
     const _addTitle = function(title, clas){
         if (typeof clas === 'undefined')
@@ -317,8 +317,8 @@ const HellForm = function(){
     };
     /**
      * 
-     * @param {string} title 
-     * @param {string} clas 
+     * @param {string} title
+     * @param {string} clas
      */
     const _addNotice = function(title, clas){
         if (typeof clas === 'undefined')
@@ -332,17 +332,17 @@ const HellForm = function(){
         _submit.innerHTML = '';
         const input = _input(
           'submit', 
-          id.toString(), 
+          id.toString(),
           func,
           title.toString()
         );
-        input.value = title; 
+        input.value = title;
         _submit.className = _class('submit_holder');
         _submit.appendChild(input);
     };
     /**
-     * 
-     * @param  {...any} inner 
+     *
+     * @param  {...any} inner
      * @returns {object}
      */
     const _lineRender = function(...inner){
@@ -355,8 +355,8 @@ const HellForm = function(){
     };
     /**
      * 
-     * @param {string} label 
-     * @param {object} inner 
+     * @param {string} label
+     * @param {object} inner
      * @returns {object}
      */
     const _lineFormRender = function(name, label, inner){
@@ -367,9 +367,9 @@ const HellForm = function(){
     };
     /**
      * 
-     * @param {string} type 
-     * @param {string} name 
-     * @param {function} func 
+     * @param {string} type
+     * @param {string} name
+     * @param {function} func
      * @param {string} label
      * @returns {object}
      */
@@ -382,11 +382,11 @@ const HellForm = function(){
         return input;
     };
     /**
-     * 
-     * @param {string} input 
-     * @param {string} type 
-     * @param {string} name 
-     * @param {function} func 
+     *
+     * @param {string} input
+     * @param {string} type
+     * @param {string} name
+     * @param {function} func
      */
     const _inputAttribute = function(input, type, name, func){
         input.className = _class(type);
@@ -399,7 +399,7 @@ const HellForm = function(){
             input.addEventListener('keyup', func); 
     };
     /**
-     * 
+     *
      * @param {string} label 
      * @returns {DOMElement}
      */
@@ -411,7 +411,7 @@ const HellForm = function(){
         return elem;
     };
     /**
-     * 
+     *
      * @returns {DOMElement}
      */
     const _titleRender = function(){
@@ -424,13 +424,14 @@ const HellForm = function(){
         return _lineRender(title);
     };
     /**
-     * 
+     *
+     * @type {DOMElement}
      */
     const _noticeInit = function(){
         _notice_element = _create('div');
     };
     /**
-     * 
+     *
      * @returns {DOMElement}
      */
     const _noticeRender = function(){
@@ -442,17 +443,17 @@ const HellForm = function(){
         return _lineRender(_notice_element);
     };
     /**
-     * 
+     *
      * @returns {DOMElement}
      */
     const _submitRender = function(){
         return _lineRender(_submit);
     };
     /**
-     * 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {function} func 
+     *
+     * @param {string} label
+     * @param {string} name
+     * @param {function} func
      * @returns {DOMElement}
      */
     const _passRender = function(label, name, func){
@@ -465,9 +466,9 @@ const HellForm = function(){
     };
     /**
      * 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {function} func 
+     * @param {string} label
+     * @param {string} name
+     * @param {function} func
      * @returns {DOMElement}
      */
     const _checkboxRender = function(label, name, func){
@@ -479,10 +480,10 @@ const HellForm = function(){
         );
     };
     /**
-     * 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {function} func 
+     *
+     * @param {string} label
+     * @param {string} name
+     * @param {function} func
      * @returns {DOMElement}
      */
     const _textRender = function(label, name, func){
@@ -494,10 +495,10 @@ const HellForm = function(){
         );
     };
     /**
-     * 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {function} func 
+     *
+     * @param {string} label
+     * @param {string} name
+     * @param {function} func
      * @returns {DOMElement}
      */
     const _areaRender = function(label, name, func){
@@ -510,9 +511,9 @@ const HellForm = function(){
         );
     };
     /**
-     * 
-     * @param {DOMElement} select 
-     * @param {array} list 
+     *
+     * @param {DOMElement} select
+     * @param {array} list
      */
     const _optionRender = function(select, list){
         for(let i in list){
@@ -523,11 +524,11 @@ const HellForm = function(){
         }
     };
     /**
-     * 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {array} list 
-     * @param {function} func 
+     *
+     * @param {string} label
+     * @param {string} name
+     * @param {array} list
+     * @param {function} func
      * @returns {DOMElement}
      */
     const _selectRender = function(label, name, list, func){
@@ -542,9 +543,9 @@ const HellForm = function(){
         );
     };
     /**
-     * 
-     * @param {string} name 
-     * @param {array} list 
+     *
+     * @param {string} name
+     * @param {array} list
      */
     const _selectUpdate = function(name,list){
           const element = _fields[name];
@@ -568,7 +569,7 @@ const HellForm = function(){
         _checkboxRender
     ];
     /**
-     * 
+     *
      * @returns {DOMElement}
      */
     const _render = function(){
