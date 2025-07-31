@@ -1,7 +1,7 @@
 /**
  * Fast like hell. form generator.
  *
- * @version 0.1.0
+ * @version 0.1.2
  *
  */
 
@@ -19,151 +19,191 @@ const HellForm = function(){
      * Class name resolver.
      * Return with the inside used class name.
      *
-     * @param {string} name 
+     * @param {string} name
+     * @public
      * @returns {string}
      */
-    this.class = function(name){
-        return _class(name);
+    this.class = function(name_){
+        return _class(name_);
     };
+
     /**
      * Id string resolver.
      * Return with the id string
      * that is used inside.
      *
-     * @param {string} name 
+     * @param {string} name_
+     * @public
      * @returns {void}
      */
-    this.id = function(name){
-        return _id(name);
+    this.id = function(name_){
+        return _id(name_);
     };
+
     /**
-     * 
-     * 
-     * @param {string} label
-     * @param {string} name
-     * @param {function} func
+     *
+     * @param {string} label_
+     * @param {string} name_
+     * @param {function} func_
+     * @public
      * @returns {void}
      */
-    this.addPass = function(label, name, func){
-        return _add(1,  label, name, func);
+    this.addPass = function(label_, name_, func_){
+        return _add(1,  label_, name_, func_);
     };
+
     /**
-     * 
-     * @param {string} label
-     * @param {string} name
-     * @param {function} func
+     *
+     * @param {string} label_
+     * @param {string} name_
+     * @param {function} func_
+     * @public
      * @returns {void}
      */
-    this.addText = function(label, name, func){
-        return _add(0, label, name, func);
+    this.addText = function(label_, name_, func_){
+        return _add(0, label_, name_, func_);
     };
+
     /**
-     * 
-     * @param {string} label
-     * @param {string} name
-     * @param {function} func
+     *
+     * @param {string} label_
+     * @param {string} name_
+     * @param {function} func_
+     * @public
      * @returns {void}
      */
-    this.addArea = function(label, name, func){
-        return _add(3, label, name, func);
+    this.addArea = function(label_, name_, func_){
+        return _add(3, label_, name_, func_);
     };
+
     /**
-     * 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {object} list 
-     * @param {function} func 
-     * @returns {VOID}
-     */
-    this.addSelect = function(label, name, list, func){
-        return _add(2, label, name, func, list);
-    };
-    /**
-     * 
-     * @param {string} label 
-     * @param {string} name 
-     * @param {function} func 
+     *
+     * @param {string} label_
+     * @param {string} name_
+     * @param {object} list_
+     * @param {function} func_
+     * @public
      * @returns {void}
      */
-    this.addCheckbox = function(label, name, func){
-        return _add(4, label, name, func);
+    this.addSelect = function(label_, name_, list_, func_){
+        return _add(2, label_, name_, func_, list_);
     };
+
     /**
-     * This is set or add the main form title. 
+     *
+     * @param {string} label_
+     * @param {string} name_
+     * @param {function} func_
+     * @public
+     * @returns {void}
+     */
+    this.addCheckbox = function(label_, name_, func_){
+        return _add(4, label_, name_, func_);
+    };
+
+    /**
+     * This is set or add the main form title.
      * Useful if we use multiple forms on the same page.
      *
-     * @param {string} title 
-     * @param {string} clas 
+     * @param {string} title
+     * @param {string} clas
+     * @public
      * @returns {void}
      */
-    this.addTitle = function(title, clas){
-        return _addTitle(title, clas);
+    this.addTitle = function(title_, clas_){
+        return _addTitle(title_, clas_);
     };
+
     /**
      * Main notice set
      *
-     * @param {string} notice message
-     * @param {string} clas 
+     * @param {string} notice message_
+     * @param {string} clas_
+     * @public
      * @returns {void}
      */
-    this.addNotice = function(notice, clas){
-        return _addNotice(notice, clas);
+    this.addNotice = function(notice_, clas_){
+        return _addNotice(notice_, clas_);
     };
+
     /**
      * Every form has only one submit button possibility.
-     * However, the auto-submit is easy to do.  
-     * So I see no reason to change that. 
-     * 
-     * @param {string} name 
-     * @param {string} id 
-     * @param {function} func 
+     * However, the auto-submit is easy to do.
+     * So I see no reason to change that.
+     *
+     * @param {string} name_
+     * @param {string} id_
+     * @param {function} func_
+     * @public
      * @returns {void}
      */
-    this.addSubmit = function(name, id, func){
-        return _addSubmit(name, id, func);
+    this.addSubmit = function(name_, id_, func_){
+        return _addSubmit(name_, id_, func_);
     };
+
     /**
-     * 
-     * @param {string} name 
-     * @param {array} list 
+     *
+     * @param {string} name_
+     * @param {array} list_
+     * @public
      */
-    this.updateSelect = function(name, list){
-        _selectUpdate(name,list);
+    this.updateSelect = function(name_, list_){
+        _selectUpdate(name_, list_);
     };
+
     /**
-     * The render function triggers the 
-     * form render process, and come back with 
-     * the DOM element. 
-     * The original version had the retard object 
-     * support. 
-     * However, that was removed. Currently, this is 
+     * The render function triggers the
+     * form render process, and come back with
+     * the DOM element.
+     * The original version had the retard object
+     * support.
+     * However, that was removed. Currently, this is
      * always returned with the DOMElement.
      *
+     * @public
      * @returns {DOMElement}
      */
     this.render = function(){
         return _render();
     };
+
     /**
      * Come back with the input field element.
      *
-     * @param {string} element basic id
+     * @param {string} id_
+     * @public
      * @returns {DOMelement|null}
      */
-    this.get = function(id){
-        return _get(id);
+    this.get = function(id_){
+        return _get(id_);
     };
+
+    /**
+     * set value.
+     *
+     * @param {string} element basic id
+     * @param {string} value
+     * @public
+     * @returns {void}
+     */
+    this.set = function(id_, value_){
+        return _set(id_, value_);
+    };
+
     /**
      * Come back with the input field value.
      *
      * @param {string} element basic id
+     * @public
      * @return {string}
      */
     this.value = function(id){
         return _value(id);
     };
+
     /**
      *
+     * @public
      * @return {Object<string, string>}
      */
     this.json = function(){
@@ -172,140 +212,199 @@ const HellForm = function(){
             out[i] = _value(i);
         return out;
     };
+
     /**
-     * 
-     * @let {object}
+     *
+     * @type {object}
+     * @private
      */
     let _title = {};
+
     /**
-     * 
-     * @let {object}
+     *
+     * @type {object}
+     * @private
      */
     let _notice = {};
+
     /**
-     * 
-     * @let {object}
+     *
+     * @type {object}
+     * @private
      */
     let _notice_element = {};
+
     /**
-     * 
-     * @let {array}
+     *
+     * @type {array}
+     * @private
      */
     let _forms = [];
+
     /**
-     * 
-     * @let {object}
+     *
+     * @type {object}
+     * @private
      */
     let _submit;
+
     /**
-     * 
-     * @let {array<string>}
+     *
+     * @type {array<string>}
+     * @private
      */
     let _ids = [];
+
     /**
-     * 
-     * @let {object}
+     *
+     * @type {object}
+     * @private
      */
     let _element;
     /**
-     * 
-     * @let {object}
+     *
+     * @type {object}
+     * @private
      */
     let _lines = {};
+
     /**
-     * 
-     * @let {object}
+     *
+     * @type {object}
+     * @private
      */
     let _labels = {};
+
     /**
-     * 
-     * @let {object}
+     *
+     * @type {object}
+     * @private
      */
     let _fields = {};
+
     /**
-     * 
-     * @let {object}
+     *
+     * @type {object}
+     * @private
      */
     let _submit_line;
 
     /**
-     * 
-     * @let {boolean}
+     *
+     * @type {boolean}
+     * @private
      */
     let _rendered = false;
 
-    const _get = function(id){
-        return _fields[id];
-    };
-    const _value = function(id){
-        return _get(id).value;
-    };
     /**
      *
-     * @param {string} name
-     * @returns {string}
+     * @param {string} id_
+     * @private
      */
-    const _id = (name)=>{
-        return ('hellform_id_'+name);
+    const _elementExistCheck = function(id_){
+        if(typeof _fields[id_] === 'undefined')
+            throw Error(id_+' not exist');
     };
+
     /**
-     * 
-     * @param {string} name
+     *
+     * @param {string} id_
+     * @private
      * @returns {string}
      */
-    const _class = (name)=>{
-        return ('hellform_'+name);
+    const _get = function(id_){
+        return _fields[id_];
     };
+
     /**
-     * 
-     * @param  {...string}
+     *
+     * @param {string} id_
+     * @private
      * @returns {string}
      */
-    const _attreses = (...c)=>{
+    const _value = function(id_){
+        return _get(id_).value;
+    };
+
+    /**
+     *
+     * @param {string} name_
+     * @private
+     * @returns {string}
+     */
+    const _id = (name_)=>{
+        return ('hellform_id_'+name_);
+    };
+
+    /**
+     *
+     * @param {string} name_
+     * @private
+     * @returns {string}
+     */
+    const _class = (name_)=>{
+        return ('hellform_'+name_);
+    };
+
+    /**
+     *
+     * @param  {...string} c_
+     * @private
+     * @returns {string}
+     */
+    const _attreses = (...c_)=>{
         let out = '';
         let s = 0;
-        for(let i of c){
+        for(let i of c_){
             if(s>0) out+=' ';
             out+=i;
             s++;
         }
         return out;
     };
+
     /**
      *
-     * @param {string} tag
+     * @param {string} tag_
+     * @private
      * @returns {object}
      */
-    const _create = function(tag){
-        return document.createElement(tag);
+    const _create = function(tag_){
+        return document.createElement(tag_);
     };
+
     /**
      *
-     * @param {string} type
-     * @param {string} label
-     * @param {string} name
-     * @param {function} func
-     * @param {array} list
+     * @param {string} type_
+     * @param {string} label_
+     * @param {string} name_
+     * @param {function} func_
+     * @param {array} list_
+     * @private
+     * @returns {void}
      */
-    const _add = function(type, label, name, func, list){
+    const _add = function(type_, label_, name_, func_, list_){
         let form = {
-            type,
-            label,
-            name,
-            func
+            type:type_,
+            label:label_,
+            name:name_,
+            func:func_
         };
-        if(type === 2){
+        if(type_ === 2){
             form.list = {};
-            for(let i in list)
-                form.list[i.toString()] = list[i].toString();
+            for(let i in list_)
+                form.list[i.toString()] = list_[i].toString();
         }
         _ids.push(name);
         _forms.push(form);
     };
+
     /**
-     * 
+     *
      * @param {string} title
      * @param {string} clas
+     * @private
+     * @returns {void}
      */
     const _addTitle = function(title, clas){
         if (typeof clas === 'undefined')
@@ -315,10 +414,13 @@ const HellForm = function(){
             'clas':clas.toString()
         };
     };
+
     /**
-     * 
+     *
      * @param {string} title
      * @param {string} clas
+     * @private
+     * @returns {void}
      */
     const _addNotice = function(title, clas){
         if (typeof clas === 'undefined')
@@ -328,21 +430,32 @@ const HellForm = function(){
             'clas':clas.toString()
         };
     };
-    const _addSubmit = function(title, id, func){
+
+    /**
+     *
+     * @param {string} title_
+     * @param {string} id_
+     * @param {function} func_
+     * @private
+     * @returns {void}
+     */
+    const _addSubmit = function(title_, id_, func_){
         _submit.innerHTML = '';
         const input = _input(
-          'submit', 
-          id.toString(),
-          func,
-          title.toString()
+          'submit',
+          id_.toString(),
+          func_,
+          title_.toString()
         );
-        input.value = title;
+        input.value = title_;
         _submit.className = _class('submit_holder');
         _submit.appendChild(input);
     };
+
     /**
      *
      * @param  {...any} inner
+     * @private
      * @returns {object}
      */
     const _lineRender = function(...inner){
@@ -353,10 +466,12 @@ const HellForm = function(){
         }
         return line;
     };
+
     /**
-     * 
+     *
      * @param {string} label
      * @param {object} inner
+     * @private
      * @returns {object}
      */
     const _lineFormRender = function(name, label, inner){
@@ -365,73 +480,86 @@ const HellForm = function(){
             inner
         );
     };
+
     /**
-     * 
+     *
      * @param {string} type
      * @param {string} name
      * @param {function} func
      * @param {string} label
+     * @private
      * @returns {object}
      */
-    const _input = function(type, name, func, label){
+    const _input = function(type_, name_, func_, label_){
         const input = _create('input');
-        _inputAttribute(input, type, name, func);
-        if(typeof label !== 'undefined')
-            input.setAttribute('placeholder', label);
-        _fields[name] = input;
+        _inputAttribute(input_, type_, name_, func_);
+        if(typeof label_ !== 'undefined')
+            input.setAttribute('placeholder', label_);
+        _fields[name_] = input;
         return input;
     };
+
     /**
      *
-     * @param {string} input
-     * @param {string} type
-     * @param {string} name
+     * @param {string} input_
+     * @param {string} type_
+     * @param {string} name_
      * @param {function} func
+     * @private
      */
-    const _inputAttribute = function(input, type, name, func){
-        input.className = _class(type);
-        input.setAttribute('type', type);
-        input.setAttribute('id', _id(name));
-        input.setAttribute('name', name);
-        if(type === 'submit') {
-            input.addEventListener('click', func); 
-        }else
-            input.addEventListener('keyup', func); 
+    const _inputAttribute = function(input_, type_, name_, func_){
+        input_.className = _class(type_);
+        input_.setAttribute('type', type_);
+        input_.setAttribute('id', _id(name_));
+        input_.setAttribute('name', name_);
+        if(type_ === 'submit') {
+            input_.addEventListener('click', func_);
+        } else if(type_ === 'select') {
+            input_.addEventListener('change', func_);
+        } else
+            input_.addEventListener('keyup', func_);
     };
+
     /**
      *
-     * @param {string} label 
+     * @param {string} label_
+     * @private
      * @returns {DOMElement}
      */
-    const _labelRender = function(name, label){
+    const _labelRender = function(name_, label_){
         const elem = _create('div');
         elem.className = _class('label');
-        elem.textContent = label;
-        _labels[name] = elem;
+        elem.textContent = label_;
+        _labels[name_] = elem;
         return elem;
     };
+
     /**
      *
+     * @private
      * @returns {DOMElement}
      */
     const _titleRender = function(){
         const title =  _create('div');
         title.className = _attreses(
-          _class('title'), 
+          _class('title'),
           _title.clas
         );
         title.textContent = _title.name;
         return _lineRender(title);
     };
+
     /**
      *
-     * @type {DOMElement}
+     * @private
      */
     const _noticeInit = function(){
         _notice_element = _create('div');
     };
+
     /**
      *
+     * @private
      * @returns {DOMElement}
      */
     const _noticeRender = function(){
@@ -442,124 +570,152 @@ const HellForm = function(){
         _notice_element.textContent = _notice.name;
         return _lineRender(_notice_element);
     };
+
     /**
      *
+     * @private
      * @returns {DOMElement}
      */
     const _submitRender = function(){
         return _lineRender(_submit);
     };
+
     /**
      *
-     * @param {string} label
-     * @param {string} name
-     * @param {function} func
+     * @param {string} label_
+     * @param {string} name_
+     * @param {function} func_
+     * @private
      * @returns {DOMElement}
      */
-    const _passRender = function(label, name, func){
-        const input = _input('password', name, func, label);
+    const _passRender = function(label, name_, func_){
+        const input = _input('password', name_, func_, label);
         return _lineFormRender(
           name,
           label,
           input
         );
     };
+
     /**
-     * 
-     * @param {string} label
-     * @param {string} name
-     * @param {function} func
+     *
+     * @param {string} label_
+     * @param {string} name_
+     * @param {function} func_
+     * @private
      * @returns {DOMElement}
      */
-    const _checkboxRender = function(label, name, func){
-        const input = _input('checkbox', name, func);
+    const _checkboxRender = function(label_, name_, func_){
+        const input = _input('checkbox', name_, func_);
         return _lineFormRender(
-          name,
-          label,
+          name_,
+          label_,
           input
         );
     };
+
     /**
      *
-     * @param {string} label
-     * @param {string} name
-     * @param {function} func
+     * @param {string} label_
+     * @param {string} name_
+     * @param {function} func_
+     * @private
      * @returns {DOMElement}
      */
-    const _textRender = function(label, name, func){
-        const input = _input('text', name, func, label);
+    const _textRender = function(label_, name_, func_){
+        const input = _input('text', name_, func_, label_);
         return _lineFormRender(
-            name,
-            label,
+            name_,
+            label_,
             input
         );
     };
+
     /**
      *
-     * @param {string} label
-     * @param {string} name
-     * @param {function} func
+     * @param {string} label_
+     * @param {string} name_
+     * @param {function} func_
+     * @private
      * @returns {DOMElement}
      */
-    const _areaRender = function(label, name, func){
+    const _areaRender = function(label_, name_, func_){
         const area = _create('textarea');
-        _inputAttribute(area, 'textarea', name, func);
+        _inputAttribute(area, 'textarea', name_, func_);
         return _lineFormRender(
-            name,
-            label,
+            name_,
+            label_,
             area
         );
     };
+
     /**
      *
-     * @param {DOMElement} select
-     * @param {array} list
+     * @param {DOMElement} select_
+     * @param {array} list_
+     * @private
      */
-    const _optionRender = function(select, list){
-        for(let i in list){
+    const _optionRender = function(select_, list_){
+        for(let i in list_){
             let option = _create('option');
             option.setAttribute('value', i.toString());
-            option.textContent = list[i].toString();
-            select.appendChild(option);
+            option.textContent = list_[i].toString();
+            select_.appendChild(option);
         }
     };
+
     /**
      *
-     * @param {string} label
-     * @param {string} name
-     * @param {array} list
-     * @param {function} func
+     * @param {string} label_
+     * @param {string} name_
+     * @param {array} list_
+     * @param {function} func_
+     * @private
      * @returns {DOMElement}
      */
-    const _selectRender = function(label, name, list, func){
+    const _selectRender = function(label_, name_, list_, func_){
         const select = _create('select');
-        _inputAttribute(select, 'select', name, func);
-        _optionRender(select, list);
-        _fields[name] = select;
+        _inputAttribute(select, 'select', name_, func_);
+        _optionRender(select, list_);
+        _fields[name_] = select;
         return _lineFormRender(
-            name,
-            label,
+            name_,
+            label_,
             select
         );
     };
+
     /**
      *
-     * @param {string} name
-     * @param {array} list
+     * @param {string} id_
+     * @param {array} list_
+     * @private
      */
-    const _selectUpdate = function(name,list){
-          const element = _fields[name];
-          if(typeof element === 'undefined')
-              throw Error(name+' not exist');
-          const val = element.value.toString(); 
-          while (element.firstChild)
-              element.removeChild(element.firstChild);
-          _optionRender(element,list);
-          element.value = val.toString(); 
+    const _selectUpdate = function(id_, list_){
+        _elementExistCheck(id_);
+        const element = _fields[id_];
+        const val = element.value.toString();
+        while (element.firstChild)
+            element.removeChild(element.firstChild);
+        _optionRender(element, list_);
+        element.value = val.toString();
     };
+
     /**
      *
-     * @const {array<function>}
+     * @param {string} name_
+     * @param {string} value_
+     * @private
+     */
+    const _set = function(id_, value_){
+        _elementExistCheck(id_);
+        _fields[id_].value = value_;
+    };
+
+    /**
+     *
+     * @type {array<function>}
+     * @private
      */
     const _renderTypes = [
         _textRender,
@@ -568,8 +724,10 @@ const HellForm = function(){
         _areaRender,
         _checkboxRender
     ];
+
     /**
      *
+     * @private
      * @returns {DOMElement}
      */
     const _render = function(){
@@ -602,6 +760,7 @@ const HellForm = function(){
         _rendered = true;
         return _element;
     };
+
     _noticeInit();
     _submit = _create('div');
 };
