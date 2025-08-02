@@ -499,7 +499,7 @@ const HellForm = function(){
      */
     const _input = function(type_, name_, func_, label_){
         const input = _create('input');
-        _inputAttribute(input_, type_, name_, func_);
+        _inputAttribute(input, type_, name_, func_);
         if(typeof label_ !== 'undefined')
             input.setAttribute('placeholder', label_);
         _fields[name_] = input;
@@ -522,6 +522,8 @@ const HellForm = function(){
         if(type_ === 'submit') {
             input_.addEventListener('click', func_);
         } else if(type_ === 'select') {
+            input_.addEventListener('change', func_);
+        } else if(type_ === 'checkbox') {
             input_.addEventListener('change', func_);
         } else
             input_.addEventListener('keyup', func_);
@@ -715,7 +717,13 @@ const HellForm = function(){
      * @private
      */
     const _set = function(id_, value_){
-        _values[id_] = value_.toString();
+        if (typeof value_ === 'undefined')
+          return;
+        if (typeof value_ === 'boolean'){
+          _values[id_] = !!value_;
+        } else {
+          _values[id_] = value_.toString();
+        }
         if(_rendered === false)
             return;
         _elementExistCheck(id_);
@@ -765,8 +773,12 @@ const HellForm = function(){
             _element.appendChild(
               _lines[i.name]
             );
-            if (typeof _values[i.name] !== 'undefined')
-              _fields[i.name].value = _values[i.name];
+            if (typeof _values[i.name] !== 'undefined'){
+              if (i.type === 4){
+                _fields[i.name].checked = _values[i.name];
+              }else
+                _fields[i.name].value = _values[i.name];
+            }
         }
         _element.appendChild(_submitRender());
         _rendered = true;
