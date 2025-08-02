@@ -215,7 +215,14 @@ const HellForm = function(){
 
     /**
      *
-     * @type {object}
+     * @type {Object.<string, string>}
+     * @private
+     */
+    let _values = {};
+
+    /**
+     *
+     * @type {Object.<string, string>}
      * @private
      */
     let _title = {};
@@ -708,6 +715,9 @@ const HellForm = function(){
      * @private
      */
     const _set = function(id_, value_){
+        _values[id_] = value_.toString();
+        if(_rendered === false)
+            return;
         _elementExistCheck(id_);
         _fields[id_].value = value_;
     };
@@ -755,6 +765,8 @@ const HellForm = function(){
             _element.appendChild(
               _lines[i.name]
             );
+            if (typeof _values[i.name] !== 'undefined')
+              _fields[i.name].value = _values[i.name];
         }
         _element.appendChild(_submitRender());
         _rendered = true;
